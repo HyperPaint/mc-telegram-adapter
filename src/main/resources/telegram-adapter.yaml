@@ -1,0 +1,3 @@
+telegramAdapter:
+  url: https://api.telegram.org:443
+  token: telegramBotToken

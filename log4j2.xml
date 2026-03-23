@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" packages="hyperpaint">
+    <Loggers>
+        <Logger level="debug" name="hyperpaint.mc.telegram_adapter" additivity="false">
+            <AppenderRef ref="SysOut"/>
+            <AppenderRef ref="DebugFile"/>
+        </Logger>
+
+        <Logger level="warn" name="org.apache" additivity="false">
+            <AppenderRef ref="SysOut"/>
+            <AppenderRef ref="DebugFile"/>
+        </Logger>
+
+        <Logger level="warn" name="com.zaxxer" additivity="false">
+            <AppenderRef ref="SysOut"/>
+            <AppenderRef ref="DebugFile"/>
+        </Logger>
+
+        <Logger level="warn" name="com.mysql" additivity="false">
+            <AppenderRef ref="SysOut"/>
+            <AppenderRef ref="DebugFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>

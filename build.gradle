@@ -1,0 +1,103 @@
+plugins {
+    id 'fabric-loom' version '1.15-SNAPSHOT'
+    id 'com.gradleup.shadow' version '9.3.1'
+    id 'maven-publish'
+}
+
+group = "${properties.group}"
+version = "${properties.version}+${properties.minecraft_version}-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "${project.group}-${project.name}" {
+            sourceSet sourceSets.main
+        }
+    }
+
+    log4jConfigs.from(file("log4j2.xml"))
+}
+
+dependencies {
+    // Fabric
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_version}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
+
+    // Lombok
+    compileOnly "org.projectlombok:lombok:${lombok_version}"
+    annotationProcessor "org.projectlombok:lombok:${lombok_version}"
+    testCompileOnly "org.projectlombok:lombok:${lombok_version}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombok_version}"
+
+    // YAML
+    shadow implementation("org.yaml:snakeyaml:${project.snakeyaml_version}")
+
+    // Telegram
+    shadow api("org.telegram:telegrambots-meta:${telegram_version}")
+    shadow implementation("org.telegram:telegrambots-client:${telegram_version}")
+    shadow implementation("org.telegram:telegrambots-longpolling:${telegram_version}")
+}
+
+processResources {
+    filesMatching("fabric.mod.json") {
+        expand project.properties
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+java {
+    withSourcesJar()
+
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.group}-${project.name}" }
+    }
+}
+
+shadowJar {
+    archiveClassifier = "dev"
+
+    configurations = [project.configurations.shadow]
+
+    dependencies {
+        exclude(dependency("com.mojang:"))
+        exclude(dependency("net.fabricmc:"))
+
+        exclude("/mappings/")
+        exclude("/META-INF/")
+    }
+}
+
+remapJar {
+    dependsOn tasks.shadowJar
+    inputFile = tasks.shadowJar.archiveFile
+}
+
+publishing {
+    publications {
+        create(MavenPublication) {
+            groupId = "${project.group}"
+            artifactId = "${project.name}"
+            version = "${project.version}"
+
+            from components.java
+        }
+    }
+
+    repositories {
+
+    }
+}

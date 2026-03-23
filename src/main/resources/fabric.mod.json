@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "${group}-${name}",
+  "version": "${version}",
+  "name": "HyperPaint Minecraft Telegram Adapter",
+  "description": "Telegram adapter",
+  "authors": [
+    "HyperPaint"
+  ],
+  "contact": {
+    "homepage": "https://github.com/${group}",
+    "issues": "https://github.com/${group}/${name}/issues",
+    "sources": "https://github.com/${group}/${name}"
+  },
+  "license": "Closed Source License",
+  "environment": "*",
+  "mixins": [
+    "hyperpaint-mc-telegram-adapter.mixins.json"
+  ],
+  "depends": {
+    "java": ">=${java_version}",
+    "minecraft": "*",
+    "fabricloader": "*"
+  },
+  "recommends": {
+    "minecraft": ">=${minecraft_version}",
+    "fabricloader": ">=${fabric_loader_version}"
+  }
+}

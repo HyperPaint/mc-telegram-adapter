@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "hyperpaint.mc.telegram_adapter.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "StartMixin",
+    "StopMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
